@@ -1,0 +1,13 @@
+.container {
+    text-align: center;
+    display: flex;
+    align-items: center;
+    flex-direction: column;  
+}
+
+.ant-divider {
+    width: 50vw; /* Use viewport width (vw) to make it span 50% of the screen */
+    border-color: black; /* Ensure the color contrasts with the background */
+    border-width: 2px; /* Optional: make the divider thicker */
+    margin: 8px 0; /* Adjust spacing around the divider */
+}
