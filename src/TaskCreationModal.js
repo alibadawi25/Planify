@@ -1,9 +1,27 @@
-import React from 'react';
-import { Modal, Form, Input, DatePicker, message, Descriptions } from 'antd';
+import React, { useState, useEffect } from 'react';
+import { Modal, Form, Input, DatePicker, message } from 'antd';
 import dayjs from 'dayjs';
 
 const TaskCreationModal = ({ isModalOpen, onClose, onTaskCreate }) => {
     const [form] = Form.useForm();
+    const [startDate, setStartDate] = useState(null); // Track the start date for validation
+
+    useEffect(() => {
+        const handleTouchMove = (e) => {
+            const timePanel = document.querySelector('.ant-picker-time-panel');
+            if (timePanel && timePanel.contains(e.target)) {
+                e.preventDefault(); // Prevent scrolling inside the time picker panel
+            }
+        };
+
+        // Add event listener for touchmove
+        document.addEventListener('touchmove', handleTouchMove, { passive: false });
+
+        // Cleanup event listener when component is unmounted
+        return () => {
+            document.removeEventListener('touchmove', handleTouchMove);
+        };
+    }, []);
 
     const handleFinish = (values) => {
         const taskDetails = {
@@ -16,7 +34,12 @@ const TaskCreationModal = ({ isModalOpen, onClose, onTaskCreate }) => {
         onTaskCreate(taskDetails);
         message.success('Task added successfully!');
         form.resetFields();
+        setStartDate(null); // Reset start date after submission
         onClose();
+    };
+
+    const handleStartDateChange = (date) => {
+        setStartDate(date); // Update the state for dynamic validation
     };
 
     return (
@@ -48,7 +71,13 @@ const TaskCreationModal = ({ isModalOpen, onClose, onTaskCreate }) => {
                     label="Start Date & Time"
                     rules={[{ required: true, message: 'Please select a start date!' }]}
                 >
-                    <DatePicker showTime format="YYYY-MM-DD HH:mm" />
+                    <DatePicker
+                        popupClassName='datePopUp'
+                        showTime
+                        format="YYYY-MM-DD HH:mm"
+                        inputReadOnly
+                        onChange={handleStartDateChange}
+                    />
                 </Form.Item>
                 <Form.Item
                     name="endDate"
@@ -61,14 +90,20 @@ const TaskCreationModal = ({ isModalOpen, onClose, onTaskCreate }) => {
                                 if (!value || value.isAfter(startDate)) {
                                     return Promise.resolve();
                                 }
-                                return Promise.reject(
-                                    new Error('End date must be after the start date!')
-                                );
+                                return Promise.reject(new Error('End date must be after the start date!'));
                             },
                         }),
                     ]}
                 >
-                    <DatePicker showTime format="YYYY-MM-DD HH:mm" />
+                    <DatePicker
+                        popupClassName='datePopUp'
+                        showTime
+                        format="YYYY-MM-DD HH:mm"
+                        inputReadOnly
+                        disabledDate={(current) =>
+                            startDate && current && current.isBefore(startDate, 'minute')
+                        }
+                    />
                 </Form.Item>
             </Form>
         </Modal>
