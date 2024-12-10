@@ -16,8 +16,6 @@ import EditTaskModal from './editTaskModal';
 import './Body.css';
 import dayjs from 'dayjs';
 
-const { Title } = Typography;
-
 const Body = ({ currentView }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
