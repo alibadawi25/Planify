@@ -1,15 +1,22 @@
 import React from 'react';
-import { Modal, Form, Input, DatePicker, message } from 'antd';
+import { Modal, Form, Input, message } from 'antd';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { DateTimePicker } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import dayjs from 'dayjs';
+import { TextField } from '@mui/material';
 
 const TaskCreationModal = ({ isModalOpen, onClose, onTaskCreate }) => {
     const [form] = Form.useForm();
+    const [startDate, setStartDate] = React.useState(dayjs());
+    const [endDate, setEndDate] = React.useState(dayjs());
 
     const handleFinish = (values) => {
         const taskDetails = {
             taskName: values.taskName,
             description: values.description,
-            startDate: values.startDate.format('YYYY-MM-DD HH:mm'),
-            endDate: values.endDate.format('YYYY-MM-DD HH:mm'),
+            startDate: startDate.format('YYYY-MM-DD HH:mm'),
+            endDate: endDate.format('YYYY-MM-DD HH:mm'),
             completed: false,
         };
         onTaskCreate(taskDetails);
@@ -43,31 +50,69 @@ const TaskCreationModal = ({ isModalOpen, onClose, onTaskCreate }) => {
                 </Form.Item>
 
                 <Form.Item
-                    name="startDate"
-                    label="Start Date & Time"
                     rules={[{ required: true, message: 'Please select a start date!' }]}
                 >
-                    <DatePicker showTime format="YYYY-MM-DD HH:mm" inputReadOnly />
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DateTimePicker
+                            label="Start Date & Time"
+                            value={startDate}
+                            onChange={setStartDate}
+                            renderInput={(params) => (
+                                <TextField
+                                    {...params}
+                                    sx={{
+                                        backgroundColor: '#f5f5f5',
+                                        borderColor: '#00b96b', // Green border color
+                                        color: '#333',
+                                        '& .MuiOutlinedInput-root': {
+                                            '& fieldset': {
+                                                borderColor: '#00b96b', // Green border
+                                            },
+                                            '&:hover fieldset': {
+                                                borderColor: '#00b96b', // Green border on hover
+                                            },
+                                            '&.Mui-focused fieldset': {
+                                                borderColor: '#00b96b', // Green border when focused
+                                            },
+                                        },
+                                    }}
+                                />
+                            )}
+                        />
+                    </LocalizationProvider>
                 </Form.Item>
+
                 <Form.Item
-                    name="endDate"
-                    label="End Date & Time"
-                    rules={[
-                        { required: true, message: 'Please select an end date!' },
-                        ({ getFieldValue }) => ({
-                            validator(_, value) {
-                                const startDate = getFieldValue('startDate');
-                                if (!value || value.isAfter(startDate)) {
-                                    return Promise.resolve();
-                                }
-                                return Promise.reject(
-                                    new Error('End date must be after the start date!')
-                                );
-                            },
-                        }),
-                    ]}
+                    rules={[{ required: true, message: 'Please select an end date!' }]}
                 >
-                    <DatePicker showTime format="YYYY-MM-DD HH:mm" inputReadOnly />
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DateTimePicker
+                            label="End Date & Time"
+                            value={endDate}
+                            onChange={setEndDate}
+                            renderInput={(params) => (
+                                <TextField
+                                    {...params}
+                                    sx={{
+                                        backgroundColor: '#f5f5f5',
+                                        borderColor: '#00b96b', // Green border color
+                                        color: '#333',
+                                        '& .MuiOutlinedInput-root': {
+                                            '& fieldset': {
+                                                borderColor: '#00b96b', // Green border
+                                            },
+                                            '&:hover fieldset': {
+                                                borderColor: '#00b96b', // Green border on hover
+                                            },
+                                            '&.Mui-focused fieldset': {
+                                                borderColor: '#00b96b', // Green border when focused
+                                            },
+                                        },
+                                    }}
+                                />
+                            )}
+                        />
+                    </LocalizationProvider>
                 </Form.Item>
             </Form>
         </Modal>

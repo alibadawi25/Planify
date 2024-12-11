@@ -170,7 +170,7 @@
     .ant-picker-panels {
         flex-direction: column !important;
       }
-      
+
     .fc .fc-event {
         height: auto;
         min-height: 40px;  /* Adjust for smaller devices */
@@ -400,3 +400,41 @@
     }
   }
   
+
+.css-1wy8uaa-MuiButtonBase-root-MuiPickersDay-root.Mui-selected:hover,.css-1e3wlyl-MuiButtonBase-root-MuiMenuItem-root-MuiMultiSectionDigitalClockSection-item.Mui-selected ,.css-23p0if-MuiButtonBase-root-MuiPickersDay-root.Mui-selected:hover ,.css-1wy8uaa-MuiButtonBase-root-MuiPickersDay-root.Mui-selected, .css-1aquho2-MuiTabs-indicator, .css-23p0if-MuiButtonBase-root-MuiPickersDay-root.Mui-selected, .css-umzx0k-MuiClock-pin, .css-d0vs79-MuiClockPointer-root{
+    background-color: #00b96b !important;
+}
+
+.css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline{
+    border-color: #00b96b !important;
+}
+
+.css-f53ilk-MuiClockPointer-thumb{
+    background-color: #00b96b !important;
+    border: 16px solid #00b96b !important;
+}
+
+.css-12t0dn4-MuiClockPointer-thumb{
+    background-color: #F5F5DC !important;
+    border: 16px solid #00b96b !important;
+}
+.css-i4bv87-MuiSvgIcon-root{
+    fill: #00b96b !important;
+}
+
+.css-y0fr9s-MuiButtonBase-root-MuiTab-root.Mui-selected, .css-1e6y48t-MuiButtonBase-root-MuiButton-root, .css-1jy569b-MuiFormLabel-root-MuiInputLabel-root.Mui-focused{
+    color:#00b96b !important;
+}
+
+.css-4f0ona-MuiClock-clock{
+    background-color: rgba(58, 58, 18, 0.07) !important;
+}
+
+.css-1t1j96h-MuiPaper-root-MuiDialog-paper{
+    background-color: #F5F5DC !important;
+}
+
+::selection {
+    background-color:#00b96b;
+    color:#000000;
+}
