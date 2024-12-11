@@ -47,7 +47,7 @@ const TaskCreationModal = ({ isModalOpen, onClose, onTaskCreate }) => {
                     label="Start Date & Time"
                     rules={[{ required: true, message: 'Please select a start date!' }]}
                 >
-                    <DatePicker showTime format="YYYY-MM-DD HH:mm" />
+                    <DatePicker showTime format="YYYY-MM-DD HH:mm" inputReadOnly />
                 </Form.Item>
                 <Form.Item
                     name="endDate"
@@ -67,7 +67,7 @@ const TaskCreationModal = ({ isModalOpen, onClose, onTaskCreate }) => {
                         }),
                     ]}
                 >
-                    <DatePicker showTime format="YYYY-MM-DD HH:mm" />
+                    <DatePicker showTime format="YYYY-MM-DD HH:mm" inputReadOnly />
                 </Form.Item>
             </Form>
         </Modal>

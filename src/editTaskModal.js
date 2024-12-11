@@ -68,6 +68,7 @@ const EditTaskModal = ({ isModalOpen, onClose, task, onTaskEdit }) => {
                         onChange={(date) => setStartDateTime(date)}
                         placeholder="Start Date and Time"
                         style={{ width: '100%' }}
+                        inputReadOnly
                     />
                 </div>
 
@@ -79,6 +80,7 @@ const EditTaskModal = ({ isModalOpen, onClose, task, onTaskEdit }) => {
                         onChange={(date) => setEndDateTime(date)}
                         placeholder="End Date and Time"
                         style={{ width: '100%' }}
+                        inputReadOnly
                     />
                 </div>
 
