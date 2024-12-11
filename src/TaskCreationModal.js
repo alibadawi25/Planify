@@ -1,50 +1,44 @@
-import React, { useState } from 'react';
-import { Modal, Form, Input, DatePicker, TimePicker, Switch, message } from 'antd';
-import dayjs from 'dayjs';
+import React, { useState, useEffect } from 'react';
+import { Modal, Form, Input, DatePicker, message } from 'antd';
 
 const TaskCreationModal = ({ isModalOpen, onClose, onTaskCreate }) => {
     const [form] = Form.useForm();
     const [startDate, setStartDate] = useState(null); // Track the start date for validation
-    const [useDate, setUseDate] = useState(false); // Toggle for date selection
+
+    useEffect(() => {
+        const handleTouchMove = (e) => {
+            const timePanel = document.querySelector('.ant-picker-time-panel');
+            if (timePanel && timePanel.contains(e.target)) {
+                e.preventDefault(); // Prevent scrolling inside the time picker panel
+            }
+        };
+
+        // Add event listener for touchmove
+        document.addEventListener('touchmove', handleTouchMove, { passive: false });
+
+        // Cleanup event listener when component is unmounted
+        return () => {
+            document.removeEventListener('touchmove', handleTouchMove);
+        };
+    }, []);
 
     const handleFinish = (values) => {
-        // Default the date to today if `useDate` is false and no date is provided
-        const today = dayjs().startOf('day');
-
-        const startDateTime = useDate
-            ? `${values.date.format('YYYY-MM-DD')} ${values.time.format('hh:mm A')}`
-            : `${today.format('YYYY-MM-DD')} ${values.time.format('hh:mm A')}`;
-
-        const endDateTime = useDate
-            ? `${values.endDate.format('YYYY-MM-DD')} ${values.endTime.format('hh:mm A')}`
-            : values.endTime.format('hh:mm A');
-
         const taskDetails = {
             taskName: values.taskName,
             description: values.description,
-            startDate: startDateTime,
-            endDate: endDateTime,
+            startDate: values.startDate.format('YYYY-MM-DD HH:mm'),
+            endDate: values.endDate.format('YYYY-MM-DD HH:mm'),
             completed: false,
         };
-
         onTaskCreate(taskDetails);
         message.success('Task added successfully!');
         form.resetFields();
         setStartDate(null); // Reset start date after submission
-        setUseDate(false); // Reset the date toggle
         onClose();
     };
 
-    const handleOpenChange = (open) => {
-        if (open) {
-            document.body.classList.add('modal-open');
-        } else {
-            document.body.classList.remove('modal-open');
-        }
-    };
-
-    const handleStartDateChange = (time) => {
-        setStartDate(time); // Update state for validation
+    const handleStartDateChange = (date) => {
+        setStartDate(date); // Update the state for dynamic validation
     };
 
     return (
@@ -59,10 +53,10 @@ const TaskCreationModal = ({ isModalOpen, onClose, onTaskCreate }) => {
                 <Form.Item
                     name="taskName"
                     label="Task Name"
-                    rules={[{ required: true, message: 'Please enter a task name!' }]}>
+                    rules={[{ required: true, message: 'Please enter a task name!' }]}
+                >
                     <Input placeholder="Enter task name" />
                 </Form.Item>
-
                 <Form.Item
                     name="description"
                     label="Description"
@@ -71,89 +65,45 @@ const TaskCreationModal = ({ isModalOpen, onClose, onTaskCreate }) => {
                     <Input.TextArea placeholder="Enter task description" rows={4} />
                 </Form.Item>
 
-                <Form.Item label="Include Date?">
-                    <Switch
-                        checked={useDate}
-                        onChange={(checked) => setUseDate(checked)}
-                        checkedChildren="Yes"
-                        unCheckedChildren="No"
-                    />
-                </Form.Item>
-
-                {useDate && (
-                    <Form.Item
-                        name="date"
-                        label="Date"
-                        rules={[{ required: useDate, message: 'Please select a date!' }]}>
-                        <DatePicker format="YYYY-MM-DD" inputReadOnly onOpenChange={handleOpenChange} />
-                    </Form.Item>
-                )}
-
                 <Form.Item
-                    name="time"
-                    label="Start Time"
-                    rules={[{ required: true, message: 'Please select a start time!' }]}>
-                    <TimePicker
-                        format="hh:mm A"
-                        use12Hours
+                    name="startDate"
+                    label="Start Date & Time"
+                    rules={[{ required: true, message: 'Please select a start date!' }]}
+                >
+                    <DatePicker
+                        popupClassName='datePopUp'
+                        showTime
+                        format="YYYY-MM-DD HH:mm"
                         inputReadOnly
                         onChange={handleStartDateChange}
-                        onOpenChange={handleOpenChange} // Toggle body scrolling
                     />
                 </Form.Item>
-
                 <Form.Item
-                    name="endTime"
-                    label="End Time"
+                    name="endDate"
+                    label="End Date & Time"
                     rules={[
-                        { required: true, message: 'Please select an end time!' },
+                        { required: true, message: 'Please select an end date!' },
                         ({ getFieldValue }) => ({
                             validator(_, value) {
-                                const startTime = getFieldValue('time');
-                                if (!value || value.isAfter(startTime)) {
+                                const startDate = getFieldValue('startDate');
+                                if (!value || value.isAfter(startDate)) {
                                     return Promise.resolve();
                                 }
-                                return Promise.reject(new Error('End time must be after the start time!'));
+                                return Promise.reject(new Error('End date must be after the start date!'));
                             },
                         }),
                     ]}
                 >
-                    <TimePicker
-                        format="hh:mm A"
-                        use12Hours
+                    <DatePicker
+                        popupClassName='datePopUp'
+                        showTime
+                        format="YYYY-MM-DD HH:mm"
                         inputReadOnly
-                        disabledHours={() =>
-                            startDate ? Array.from({ length: 24 }, (_, i) => i).filter((h) => h < startDate.hour()) : []
+                        disabledDate={(current) =>
+                            startDate && current && current.isBefore(startDate, 'minute')
                         }
-                        disabledMinutes={(selectedHour) =>
-                            startDate && selectedHour === startDate.hour()
-                                ? Array.from({ length: 60 }, (_, i) => i).filter((m) => m <= startDate.minute())
-                                : []
-                        }
-                        onOpenChange={handleOpenChange} // Toggle body scrolling
                     />
                 </Form.Item>
-
-                {useDate && (
-                    <Form.Item
-                        name="endDate"
-                        label="End Date"
-                        rules={[
-                            { required: useDate, message: 'Please select an end date!' },
-                            ({ getFieldValue }) => ({
-                                validator(_, value) {
-                                    const startDate = getFieldValue('date');
-                                    if (!value || value.isSameOrAfter(startDate)) {
-                                        return Promise.resolve();
-                                    }
-                                    return Promise.reject(new Error('End date must be the same or after the start date!'));
-                                },
-                            }),
-                        ]}
-                    >
-                        <DatePicker format="YYYY-MM-DD" inputReadOnly onOpenChange={handleOpenChange} />
-                    </Form.Item>
-                )}
             </Form>
         </Modal>
     );
