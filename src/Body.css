@@ -166,6 +166,11 @@
     .ant-picker-dropdown {
         inset: 51.9333px auto auto 0px !important;
     }
+
+    .ant-picker-panels {
+        flex-direction: column !important;
+      }
+      
     .fc .fc-event {
         height: auto;
         min-height: 40px;  /* Adjust for smaller devices */
