@@ -40,65 +40,6 @@
 }
 
 @media (max-width: 768px) {
-    .datePopUp {
-    font-size: 10px;          /* Smaller font size for mobile screens */
-    max-width: 250px;         /* Limit the width for readability */
-    overflow-y: auto;         /* Ensure scrolling if content overflows */
-    padding: 5px;             /* Add padding inside the popup */
-    border-radius: 8px;       /* Optional: Make edges rounded */
-    background-color: white;  /* Set a background color for clarity */
-}
-
-/* Adjust individual elements inside the DatePicker popup */
-.datePopUp .ant-picker-panel {
-    font-size: 10px;          /* Adjust the font size inside the calendar panel */
-    padding: 5px;             /* Padding inside the panel */
-    max-width: 100% !important; /* Ensure the panel doesn't overflow */
-}
-
-.datePopUp .ant-picker-header {
-    font-size: 10px;          /* Smaller font for the header (month/year selector) */
-}
-
-.datePopUp .ant-picker-cell-inner {
-    font-size: 10px;          /* Smaller font size for date numbers */
-    padding: 3px;             /* Reduce padding for cells */
-}
-
-.ant-picker-time-panel {
-    -webkit-overflow-scrolling: touch; /* Enable smooth scrolling on iOS */
-}
-
-.ant-picker-popup {
-    overflow-y: auto !important; /* Ensure scrolling within the popup */
-}
-
-
-/* Reduce size of date cells for a more compact look */
-.datePopUp .ant-picker-cell {
-    height: 24px !important;  /* Smaller cell height */
-    width: 24px !important;   /* Smaller cell width */
-    line-height: 24px !important;  /* Ensure text is centered in smaller cells */
-}
-
-/* Adjust the dropdown time section */
-.datePopUp .ant-picker-time-panel {
-    font-size: 10px;          /* Smaller font for time panel */
-}
-
-.datePopUp .ant-picker-time-panel-input {
-    font-size: 10px;          /* Smaller font for time input fields */
-    height: 24px;             /* Reduce height of time input */
-    padding: 5px;             /* Padding inside the input */
-}
-
-/* Adjust the buttons if they exist (e.g., 'OK', 'Cancel') */
-.datePopUp .ant-btn {
-    font-size: 10px;          /* Smaller font size for buttons */
-    padding: 4px 8px;         /* Reduce button padding */
-    min-width: 80px;          /* Set minimum width to prevent overflow */
-}
-
     .fc .fc-event-title {
         font-size: 8px;  /* For mid-size screens like tablets */
         padding: 0 5px;   /* Add padding */
