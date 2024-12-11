@@ -7,16 +7,17 @@ const TaskCreationModal = ({ isModalOpen, onClose, onTaskCreate }) => {
 
     useEffect(() => {
         const handleTouchMove = (e) => {
-            const timePanel = document.querySelector('.ant-picker-time-panel');
-            if (timePanel && timePanel.contains(e.target)) {
-                e.preventDefault(); // Prevent scrolling inside the time picker panel
+            const datePickerPopup = document.querySelector('.ant-picker-dropdown');
+            if (datePickerPopup && datePickerPopup.contains(e.target)) {
+                // Allow scrolling inside the popup
+                return;
             }
+            // Prevent scrolling on the rest of the page
+            e.preventDefault();
         };
 
-        // Add event listener for touchmove
         document.addEventListener('touchmove', handleTouchMove, { passive: false });
 
-        // Cleanup event listener when component is unmounted
         return () => {
             document.removeEventListener('touchmove', handleTouchMove);
         };
@@ -39,6 +40,13 @@ const TaskCreationModal = ({ isModalOpen, onClose, onTaskCreate }) => {
 
     const handleStartDateChange = (date) => {
         setStartDate(date); // Update the state for dynamic validation
+    };
+
+    const handleDatePickerOpen = () => {
+        const popup = document.querySelector('.ant-picker-dropdown');
+        if (popup) {
+            popup.focus(); // Programmatically focus the popup
+        }
     };
 
     return (
@@ -76,6 +84,7 @@ const TaskCreationModal = ({ isModalOpen, onClose, onTaskCreate }) => {
                         format="YYYY-MM-DD HH:mm"
                         inputReadOnly
                         onChange={handleStartDateChange}
+                        onOpenChange={handleDatePickerOpen}
                     />
                 </Form.Item>
                 <Form.Item
