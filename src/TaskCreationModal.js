@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Modal, Form, Input, DatePicker, TimePicker, Switch, message } from 'antd';
+import dayjs from 'dayjs';
 
 const TaskCreationModal = ({ isModalOpen, onClose, onTaskCreate }) => {
     const [form] = Form.useForm();
@@ -7,9 +8,12 @@ const TaskCreationModal = ({ isModalOpen, onClose, onTaskCreate }) => {
     const [useDate, setUseDate] = useState(false); // Toggle for date selection
 
     const handleFinish = (values) => {
+        // Default the date to today if `useDate` is false and no date is provided
+        const today = dayjs().startOf('day');
+
         const startDateTime = useDate
             ? `${values.date.format('YYYY-MM-DD')} ${values.time.format('hh:mm A')}`
-            : values.time.format('hh:mm A');
+            : `${today.format('YYYY-MM-DD')} ${values.time.format('hh:mm A')}`;
 
         const endDateTime = useDate
             ? `${values.endDate.format('YYYY-MM-DD')} ${values.endTime.format('hh:mm A')}`
@@ -23,7 +27,6 @@ const TaskCreationModal = ({ isModalOpen, onClose, onTaskCreate }) => {
             completed: false,
         };
 
-        
         onTaskCreate(taskDetails);
         message.success('Task added successfully!');
         form.resetFields();
@@ -56,10 +59,10 @@ const TaskCreationModal = ({ isModalOpen, onClose, onTaskCreate }) => {
                 <Form.Item
                     name="taskName"
                     label="Task Name"
-                    rules={[{ required: true, message: 'Please enter a task name!' }]}
-                >
+                    rules={[{ required: true, message: 'Please enter a task name!' }]}>
                     <Input placeholder="Enter task name" />
                 </Form.Item>
+
                 <Form.Item
                     name="description"
                     label="Description"
@@ -81,17 +84,15 @@ const TaskCreationModal = ({ isModalOpen, onClose, onTaskCreate }) => {
                     <Form.Item
                         name="date"
                         label="Date"
-                        rules={[{ required: useDate, message: 'Please select a date!' }]}
-                    >
-                        <DatePicker format="YYYY-MM-DD" inputReadOnly onOpenChange={handleOpenChange}/>
+                        rules={[{ required: useDate, message: 'Please select a date!' }]}>
+                        <DatePicker format="YYYY-MM-DD" inputReadOnly onOpenChange={handleOpenChange} />
                     </Form.Item>
                 )}
 
                 <Form.Item
                     name="time"
                     label="Start Time"
-                    rules={[{ required: true, message: 'Please select a start time!' }]}
-                >
+                    rules={[{ required: true, message: 'Please select a start time!' }]}>
                     <TimePicker
                         format="hh:mm A"
                         use12Hours
@@ -112,9 +113,7 @@ const TaskCreationModal = ({ isModalOpen, onClose, onTaskCreate }) => {
                                 if (!value || value.isAfter(startTime)) {
                                     return Promise.resolve();
                                 }
-                                return Promise.reject(
-                                    new Error('End time must be after the start time!')
-                                );
+                                return Promise.reject(new Error('End time must be after the start time!'));
                             },
                         }),
                     ]}
@@ -147,15 +146,12 @@ const TaskCreationModal = ({ isModalOpen, onClose, onTaskCreate }) => {
                                     if (!value || value.isSameOrAfter(startDate)) {
                                         return Promise.resolve();
                                     }
-                                    return Promise.reject(
-                                        new Error('End date must be the same or after the start date!')
-                                    );
+                                    return Promise.reject(new Error('End date must be the same or after the start date!'));
                                 },
                             }),
                         ]}
                     >
-                        <DatePicker format="YYYY-MM-DD" inputReadOnly onOpenChange={handleOpenChange} // Toggle body scrolling
-                        />
+                        <DatePicker format="YYYY-MM-DD" inputReadOnly onOpenChange={handleOpenChange} />
                     </Form.Item>
                 )}
             </Form>
