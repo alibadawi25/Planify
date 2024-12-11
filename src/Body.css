@@ -157,6 +157,15 @@
 }
 
 @media (max-width: 768px) {
+
+    .ant-picker-dropdown .ant-picker-panel-container {
+        max-width: 100vw !important;
+        overflow: auto !important;
+        inset: 51.9333px auto auto 0px !important;
+    }
+    .ant-picker-dropdown {
+        inset: 51.9333px auto auto 0px !important;
+    }
     .fc .fc-event {
         height: auto;
         min-height: 40px;  /* Adjust for smaller devices */
@@ -342,6 +351,7 @@
 }
 
 @media (max-width: 768px) {
+
     .fc .fc-event {
         height: auto;  /* Reduce height for smaller tablets */
     }
