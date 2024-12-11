@@ -8,6 +8,19 @@
     text-overflow: ellipsis;  /* Prevent text overflow */
 }
 
+/* Prevent body scroll when dropdown is open */
+.ant-picker-dropdown {
+    touch-action: none; /* Prevent gestures that cause scroll */
+    overflow: hidden;   /* Prevent internal scrolling issues */
+}
+
+body.modal-open {
+    overflow: hidden;   /* Prevent scrolling the background */
+    position: fixed;    /* Lock body position */
+    width: 100%;        /* Prevent horizontal scroll shifts */
+}
+
+
 /* Responsiveness for FullCalendar event title text */
 @media (max-width: 1024px) {
     .fc-daygrid-event-dot, .fc-event-time{

@@ -23,12 +23,21 @@ const TaskCreationModal = ({ isModalOpen, onClose, onTaskCreate }) => {
             completed: false,
         };
 
+        
         onTaskCreate(taskDetails);
         message.success('Task added successfully!');
         form.resetFields();
         setStartDate(null); // Reset start date after submission
         setUseDate(false); // Reset the date toggle
         onClose();
+    };
+
+    const handleOpenChange = (open) => {
+        if (open) {
+            document.body.classList.add('modal-open');
+        } else {
+            document.body.classList.remove('modal-open');
+        }
     };
 
     const handleStartDateChange = (time) => {
@@ -74,7 +83,7 @@ const TaskCreationModal = ({ isModalOpen, onClose, onTaskCreate }) => {
                         label="Date"
                         rules={[{ required: useDate, message: 'Please select a date!' }]}
                     >
-                        <DatePicker format="YYYY-MM-DD" inputReadOnly />
+                        <DatePicker format="YYYY-MM-DD" inputReadOnly onOpenChange={handleOpenChange}/>
                     </Form.Item>
                 )}
 
@@ -88,6 +97,7 @@ const TaskCreationModal = ({ isModalOpen, onClose, onTaskCreate }) => {
                         use12Hours
                         inputReadOnly
                         onChange={handleStartDateChange}
+                        onOpenChange={handleOpenChange} // Toggle body scrolling
                     />
                 </Form.Item>
 
@@ -121,6 +131,7 @@ const TaskCreationModal = ({ isModalOpen, onClose, onTaskCreate }) => {
                                 ? Array.from({ length: 60 }, (_, i) => i).filter((m) => m <= startDate.minute())
                                 : []
                         }
+                        onOpenChange={handleOpenChange} // Toggle body scrolling
                     />
                 </Form.Item>
 
@@ -143,7 +154,8 @@ const TaskCreationModal = ({ isModalOpen, onClose, onTaskCreate }) => {
                             }),
                         ]}
                     >
-                        <DatePicker format="YYYY-MM-DD" inputReadOnly />
+                        <DatePicker format="YYYY-MM-DD" inputReadOnly onOpenChange={handleOpenChange} // Toggle body scrolling
+                        />
                     </Form.Item>
                 )}
             </Form>
