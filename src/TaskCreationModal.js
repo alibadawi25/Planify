@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Modal, Form, Input, DatePicker, TimePicker, Switch, message } from 'antd';
-import dayjs from 'dayjs';
 
 const TaskCreationModal = ({ isModalOpen, onClose, onTaskCreate }) => {
     const [form] = Form.useForm();
