@@ -56,7 +56,12 @@ const TaskCreationModal = ({ isModalOpen, onClose, onTaskCreate }) => {
                         <DateTimePicker
                             label="Start Date & Time"
                             value={startDate}
-                            onChange={setStartDate}
+                            onChange={(newValue) => {
+                                setStartDate(newValue);
+                                if (endDate.isBefore(newValue)) {
+                                    setEndDate(newValue); // Adjust endDate if it becomes invalid
+                                }
+                            }}
                             renderInput={(params) => (
                                 <TextField
                                     {...params}
@@ -90,6 +95,7 @@ const TaskCreationModal = ({ isModalOpen, onClose, onTaskCreate }) => {
                             label="End Date & Time"
                             value={endDate}
                             onChange={setEndDate}
+                            minDateTime={startDate} // Disable dates and times before the selected start date & time
                             renderInput={(params) => (
                                 <TextField
                                     {...params}

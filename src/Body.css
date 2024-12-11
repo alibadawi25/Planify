@@ -401,36 +401,43 @@
   }
   
 
-.css-1wy8uaa-MuiButtonBase-root-MuiPickersDay-root.Mui-selected:hover,.css-1e3wlyl-MuiButtonBase-root-MuiMenuItem-root-MuiMultiSectionDigitalClockSection-item.Mui-selected ,.css-23p0if-MuiButtonBase-root-MuiPickersDay-root.Mui-selected:hover ,.css-1wy8uaa-MuiButtonBase-root-MuiPickersDay-root.Mui-selected, .css-1aquho2-MuiTabs-indicator, .css-23p0if-MuiButtonBase-root-MuiPickersDay-root.Mui-selected, .css-umzx0k-MuiClock-pin, .css-d0vs79-MuiClockPointer-root{
+.MuiButtonBase-root-MuiMenuItem-root-MuiMultiSectionDigitalClockSection-item.Mui-selected,.MuiClock-pin, .MuiTabs-indicator, .MuiClockPointer-root, .MuiMenuItem-gutters.Mui-selected.MuiMultiSectionDigitalClockSection-item{
     background-color: #00b96b !important;
 }
 
-.css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline{
+.MuiPickersDay-root.Mui-selected, .MuiPickersYear-yearButton.Mui-selected:focus, .MuiPickersYear-yearButton.Mui-selected{
+    background-color: #00b96b !important;
+}
+
+.MuiPickersDay-today{
+    border-color: #00b96c5b !important;
+}
+
+.MuiInputBase-root-MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline , .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline{
     border-color: #00b96b !important;
 }
 
-.css-f53ilk-MuiClockPointer-thumb{
+.MuiClockPointer-thumb{
     background-color: #00b96b !important;
     border: 16px solid #00b96b !important;
 }
 
-.css-12t0dn4-MuiClockPointer-thumb{
-    background-color: #F5F5DC !important;
+.MuiClockPointer-thumb{
     border: 16px solid #00b96b !important;
 }
-.css-i4bv87-MuiSvgIcon-root{
+.MuiSvgIcon-root{
     fill: #00b96b !important;
 }
 
-.css-y0fr9s-MuiButtonBase-root-MuiTab-root.Mui-selected, .css-1e6y48t-MuiButtonBase-root-MuiButton-root, .css-1jy569b-MuiFormLabel-root-MuiInputLabel-root.Mui-focused{
+.MuiButton-colorPrimary, .Mui-focused.MuiInputLabel-outlined{
     color:#00b96b !important;
 }
 
-.css-4f0ona-MuiClock-clock{
+.MuiClock-clock{
     background-color: rgba(58, 58, 18, 0.07) !important;
 }
 
-.css-1t1j96h-MuiPaper-root-MuiDialog-paper{
+.MuiDialog-paperScrollPaper.MuiDialog-paperWidthSm, .MuiPopper-root .MuiPickersPopper-paper{
     background-color: #F5F5DC !important;
 }
 

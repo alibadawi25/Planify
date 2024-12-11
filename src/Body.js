@@ -77,7 +77,7 @@ const Body = ({ currentView }) => {
     };
     const renderFullCalendarEvents = useMemo(() => {
         return tasks
-            .filter((task) => !task.completed) // Filter out completed tasks
+            .filter((task) => !task.completed && dayjs(task.endDate).isAfter(currentTime)) // Filter out completed tasks
             .map((task) => {
                 const start = dayjs(task.startDate);
                 const end = dayjs(task.endDate);
