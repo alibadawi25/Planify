@@ -235,7 +235,6 @@ const Body = ({ currentView }) => {
                 <Button type="primary" onClick={openModal}>
                     Add a Task
                 </Button>
-                <Button>LOL</Button>
                 <TaskCreationModal isModalOpen={isModalOpen} onClose={closeModal} onTaskCreate={handleTaskCreate} />
                 <Dropdown overlay={menu} trigger={['click', 'hover']}>
                     <Button type="text" style={{ fontSize: '1.5em', display: 'flex', alignItems: 'center' }}>
