@@ -375,9 +375,7 @@
     color: white;
 }
 
-.fc .fc-event.fc-event-completed {
-    background-color: blue;
-}
+
 
 /* Adjustments for large screens (computers) */
 @media (min-width: 1025px) {
