@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Button, Dropdown, Menu, message } from 'antd';
+import { Button, Dropdown, Menu, message, Typography } from 'antd';
 import {
     DownOutlined,
     EditOutlined,
@@ -15,7 +15,7 @@ import TaskCreationModal from './TaskCreationModal';
 import EditTaskModal from './editTaskModal';
 import './Body.css';
 import dayjs from 'dayjs';
-
+const { Title } = Typography;
 const Body = ({ currentView }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -25,38 +25,30 @@ const Body = ({ currentView }) => {
     });
     const [taskToEdit, setTaskToEdit] = useState(null); // Task being edited
     const [currentTime, setCurrentTime] = useState(dayjs());
-
     useEffect(() => {
         localStorage.setItem('tasks', JSON.stringify(tasks));
     }, [tasks]);
-
     useEffect(() => {
         const interval = setInterval(() => {
             setCurrentTime(dayjs());
         }, 1000);
         return () => clearInterval(interval);
     }, []);
-
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
-
     const openEditModal = (task) => {
         setTaskToEdit(task);
         setIsEditModalOpen(true);
     };
-
     const closeEditModal = () => setIsEditModalOpen(false);
-
     const handleTaskCreate = (taskDetails) => {
         const newTask = { ...taskDetails, id: Date.now() };
         setTasks((prevTasks) => [...prevTasks, newTask]);
     };
-
     const handleDeleteTask = (taskId) => {
         setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId));
         message.success('Task deleted');
     };
-
     const handleStartTask = (taskId) => {
         setTasks((prevTasks) =>
             prevTasks.map((task) =>
@@ -67,7 +59,6 @@ const Body = ({ currentView }) => {
         );
         message.success('Task started');
     };
-
     const handleMarkAsCompleted = (taskId) => {
         setTasks((prevTasks) =>
             prevTasks.map((task) =>
@@ -76,7 +67,6 @@ const Body = ({ currentView }) => {
         );
         message.success('Task marked as completed');
     };
-
     const handleUpdateTask = (updatedTask) => {
         setTasks((prevTasks) =>
             prevTasks.map((task) =>
@@ -86,7 +76,6 @@ const Body = ({ currentView }) => {
         message.success('Task updated');
         setIsEditModalOpen(false); // Close the edit modal
     };
-
     const renderFullCalendarEvents = useMemo(() => {
         return tasks
             .filter((task) => !task.completed) // Filter out completed tasks
@@ -154,14 +143,12 @@ const Body = ({ currentView }) => {
     const renderTimeDetails = (startDate, endDate) => {
         const start = dayjs(startDate, 'YYYY-MM-DD HH:mm');
         const end = dayjs(endDate, 'YYYY-MM-DD HH:mm');
-
         if (currentTime.isBefore(start)) {
             const diffSeconds = start.diff(currentTime, 'second');
             const days = Math.floor(diffSeconds / 86400);
             const hours = Math.floor((diffSeconds % 86400) / 3600);
             const minutes = Math.floor((diffSeconds % 3600) / 60);
             const seconds = diffSeconds % 60;
-
             return days > 0 ? (
                 <p>Starts in: {days}d {hours}h</p>
             ) : (
@@ -175,7 +162,6 @@ const Body = ({ currentView }) => {
             const hours = Math.floor((diffSeconds % 86400) / 3600);
             const minutes = Math.floor((diffSeconds % 3600) / 60);
             const seconds = diffSeconds % 60;
-
             return days > 0 ? (
                 <p>Time left: {days}d {hours}h</p>
             ) : (
@@ -189,7 +175,6 @@ const Body = ({ currentView }) => {
             return <p>Started at: {start.format('YYYY-MM-DD HH:mm')}</p>;
         }
     };
-
     const renderTaskMenu = (taskId) => (
         <Menu>
             <Menu.Item onClick={() => openEditModal(tasks.find((task) => task.id === taskId))} icon={<EditOutlined />}>
@@ -208,7 +193,6 @@ const Body = ({ currentView }) => {
             )}
         </Menu>
     );
-
     const menu = (
         <Menu>
             {tasks.map((task) => (
@@ -228,7 +212,6 @@ const Body = ({ currentView }) => {
             ))}
         </Menu>
     );
-
     if (currentView === 'tasks') {
         return (
             <div className="body-content">
@@ -271,5 +254,4 @@ const Body = ({ currentView }) => {
         return <div className="body-content"> {/* Render other views here */}</div>;
     }
 };
-
 export default Body;
