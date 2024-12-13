@@ -398,9 +398,14 @@
     }
   }
   
-
-.MuiButtonBase-root-MuiMenuItem-root-MuiMultiSectionDigitalClockSection-item.Mui-selected,.MuiClock-pin, .MuiTabs-indicator, .MuiClockPointer-root, .MuiMenuItem-gutters.Mui-selected.MuiMultiSectionDigitalClockSection-item{
+.MuiButtonBase-root-MuiMenuItem-root-MuiMultiSectionDigitalClockSection-item.Mui-selected,.MuiClock-pin, .MuiTabs-indicator, .MuiClockPointer-root{
     background-color: #00b96b !important;
+}
+
+.MuiMenuItem-gutters.Mui-selected.MuiMultiSectionDigitalClockSection-item{
+    border-radius: 10px !important;
+    background-color: #00b96c4a !important;
+    color: #000;
 }
 
 .MuiPickersDay-root.Mui-selected, .MuiPickersYear-yearButton.Mui-selected:focus, .MuiPickersYear-yearButton.Mui-selected{
@@ -438,6 +443,8 @@
 .MuiDialog-paperScrollPaper.MuiDialog-paperWidthSm, .MuiPopper-root .MuiPickersPopper-paper{
     background-color: #F5F5DC !important;
 }
+
+
 
 ::selection {
     background-color:#00b96b;

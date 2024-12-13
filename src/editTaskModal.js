@@ -1,20 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Input, DatePicker, Button, message } from 'antd';
+import { Modal, Input, Button, message } from 'antd';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { DateTimePicker } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
+import { TextField } from '@mui/material';
 
 const dateTimeFormat = 'YYYY-MM-DD HH:mm';
 
 const EditTaskModal = ({ isModalOpen, onClose, task, onTaskEdit }) => {
     const [taskName, setTaskName] = useState('');
-    const [startDateTime, setStartDateTime] = useState(null);
-    const [endDateTime, setEndDateTime] = useState(null);
+    const [startDateTime, setStartDateTime] = useState(dayjs());
+    const [endDateTime, setEndDateTime] = useState(dayjs());
     const [completed, setCompleted] = useState(false);
 
     useEffect(() => {
         if (task) {
             setTaskName(task.taskName || '');
-            setStartDateTime(task.startDate ? dayjs(task.startDate, dateTimeFormat) : null);
-            setEndDateTime(task.endDate ? dayjs(task.endDate, dateTimeFormat) : null);
+            setStartDateTime(task.startDate ? dayjs(task.startDate, dateTimeFormat) : dayjs());
+            setEndDateTime(task.endDate ? dayjs(task.endDate, dateTimeFormat) : dayjs());
             setCompleted(task.completed || false);
         }
     }, [task]);
@@ -46,7 +50,7 @@ const EditTaskModal = ({ isModalOpen, onClose, task, onTaskEdit }) => {
     return (
         <Modal
             title="Edit Task"
-            visible={isModalOpen}
+            open={isModalOpen}
             onCancel={onClose}
             footer={null}
             width={400}
@@ -61,27 +65,57 @@ const EditTaskModal = ({ isModalOpen, onClose, task, onTaskEdit }) => {
                 </div>
 
                 <div style={{ marginBottom: 16 }}>
-                    <DatePicker
-                        showTime={{ format: 'HH:mm' }}
-                        format={dateTimeFormat}
-                        value={startDateTime}
-                        onChange={(date) => setStartDateTime(date)}
-                        placeholder="Start Date and Time"
-                        style={{ width: '100%' }}
-                        inputReadOnly
-                    />
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DateTimePicker
+                            label="Start Date and Time"
+                            value={startDateTime}
+                            onChange={(newValue) => {
+                                setStartDateTime(newValue);
+                                if (endDateTime.isBefore(newValue)) {
+                                    setEndDateTime(newValue); // Ensure end date is not before start date
+                                }
+                            }}
+                            renderInput={(params) => (
+                                <TextField
+                                    {...params}
+                                    sx={{
+                                        width: '100%',
+                                        backgroundColor: '#f5f5f5',
+                                        '& .MuiOutlinedInput-root': {
+                                            '& fieldset': { borderColor: '#00b96b' },
+                                            '&:hover fieldset': { borderColor: '#00b96b' },
+                                            '&.Mui-focused fieldset': { borderColor: '#00b96b' },
+                                        },
+                                    }}
+                                />
+                            )}
+                        />
+                    </LocalizationProvider>
                 </div>
 
                 <div style={{ marginBottom: 16 }}>
-                    <DatePicker
-                        showTime={{ format: 'HH:mm' }}
-                        format={dateTimeFormat}
-                        value={endDateTime}
-                        onChange={(date) => setEndDateTime(date)}
-                        placeholder="End Date and Time"
-                        style={{ width: '100%' }}
-                        inputReadOnly
-                    />
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DateTimePicker
+                            label="End Date and Time"
+                            value={endDateTime}
+                            onChange={setEndDateTime}
+                            minDateTime={startDateTime} // Prevent selecting a date before the start date
+                            renderInput={(params) => (
+                                <TextField
+                                    {...params}
+                                    sx={{
+                                        width: '100%',
+                                        backgroundColor: '#f5f5f5',
+                                        '& .MuiOutlinedInput-root': {
+                                            '& fieldset': { borderColor: '#00b96b' },
+                                            '&:hover fieldset': { borderColor: '#00b96b' },
+                                            '&.Mui-focused fieldset': { borderColor: '#00b96b' },
+                                        },
+                                    }}
+                                />
+                            )}
+                        />
+                    </LocalizationProvider>
                 </div>
 
                 <div style={{ marginBottom: 16 }}>
